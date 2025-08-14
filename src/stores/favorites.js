@@ -7,7 +7,12 @@ export const useFavoriteStore = defineStore('favoriteStore', () => {
 
   // 任務8. 加入我的最愛
   const addFav = (target) => {
-    console.log(target);
+    if (!target || !target.id) return
+    
+    const exists = list.value.some(item => item.id === target.id)
+    if (!exists) {
+      list.value.push(target)
+    }
   }
 
   // 移除我的最愛
@@ -21,5 +26,9 @@ export const useFavoriteStore = defineStore('favoriteStore', () => {
     }
   }
 
-  return { list, addFav, removeFav }
+  const isFavorite = (target) => {
+    return list.value.some(item => item.id === target.id)
+  }
+
+  return { list, addFav, removeFav, isFavorite }
 })

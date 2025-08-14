@@ -2,23 +2,33 @@
 // 如果使用pinia
 // import { useFavoriteStore } from '@/stores/favorites'
 // const favoriteStore = useFavoriteStore()
+import { ref } from 'vue'
 
 // 任務6. 移除收藏列表，不限定方式
 const favList = ref([])
-const removeFav = (target) => {}
+defineProps({
+  favorites: {
+    type: Array,
+    required: true
+  }
+})
+const emit = defineEmits(['remove'])
+const removeFav = (item) => {
+  emit('remove', item)
+}
 
 </script>
 
 <template>
   <div class="favList">
-    <div class="nodata">還沒有加入收藏喔</div>
+    <div class="nodata" v-if="favorites.length === 0">還沒有加入收藏喔</div>
 
     <!-- 任務7-1. 沒有收藏列表顯示⬆️有收藏列表顯示⬇️-->
 
-    <div class="container">
+    <div class="container" v-else>
       <!-- 任務7-2. 顯示收藏列表-->
       <div class="list" v-for="item in favList" :key="item.id">
-        <img :src="item.images" />
+        <img :src="item.images" alt="專輯封面"/>
         <div class="list_content">
           <h6>{{ item.name }}</h6>
           <p>{{ item.artists }}</p>
